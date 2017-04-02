@@ -1,5 +1,5 @@
 #--------------------------------------------------------------------------------------------------------------------
-# forest.din versão beta                                   
+# forest.din                            
 # Função para cálculo de taxas demográficas para comunidades de espécies arbóreas                        
 # Determinação das taxas de mortalidade, recrutamento, perda e ganho em área basal, mudanças líquidas e rotatividade,
 # baseado em:
