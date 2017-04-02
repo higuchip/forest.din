@@ -20,6 +20,7 @@
 #
 # Autor:  Pedro Higuchi                                   
 # 01/04/2017											                        
+#Higuchi, P. forest.din: Função em linguagem de programação estatística R para a determinação de taxas demográficas de espécies arbreas. 2017. DOI: 10.5281/zenodo.439701. Disponvel em https://github.com/higuchip/forest.din
 #														                              
 #														                              
 # Observações:											                      
