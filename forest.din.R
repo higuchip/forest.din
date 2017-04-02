@@ -212,3 +212,8 @@ forest.din<-function(x,t)
   write.table(dinamica[[3]], file = "dinamica_ab_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   
 }
+
+#FIM
+#Aplicação
+#din<-read.table("dados_exemplo.csv", header = T, sep=";", dec=",")
+#forest.din(din,5), onde o primeiro argumento representa o arquivo com os dados de dinâmica e o segundo argumento o tempo entre inventrios
