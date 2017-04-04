@@ -1,4 +1,4 @@
-# forest.din v0.1-beta.1
+# forest.din v0.1-beta.1.1
 
 ## Função para cálculo de taxas demográficas para comunidades de espécies arbóreas                       
 
