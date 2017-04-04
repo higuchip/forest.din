@@ -31,6 +31,20 @@
 # DAP2 (DAP no ano 2)   
 # b) arquivo exemplo de entrada, disponível em https://www.dropbox.com/s/snnco7rkpl22mp2/dados_exemplo.xlsx?dl=0
 # c) O argumento t, representa o tempo entre inventários  		     
+#
+#
+#Como aplicar, usando o arquivo exemplo:
+#
+#dados_exemplo <- read.table("https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv",
+#                            header=T, sep = ";", dec=",")
+#source("https://raw.githubusercontent.com/higuchip/forest.din/master/forest.din.R")
+#orest.din(dados_exemplo, 5) #onde, 5 representa o tempo entre intervalos
+#
+#Modificações:
+#
+# Data: 04/04/2017
+# *Add: Determinação da riqueza para os diferentes anos
+# *Add: return, para que possa gerar um objeto
 #----------------------------------------------------------------------------------------------------------------------
 
 
@@ -185,24 +199,36 @@ forest.din<-function(x,t)
                    ab.parc=din.parc.ab, 
                    ab.spp=din.spp.ab)
   
+   #Abundância
   n0 <- sum(din.parc.ind[,1])
   n.mort <- sum(din.parc.ind[,3])
   n.recr <- sum(din.parc.ind[,4])
   n1 <- sum(din.parc.ind[,5])
-  n0.desv = sd(din.parc.ind[,1])
-  n1.desv = sd(din.parc.ind[,5])
+  n0.desv <- sd(din.parc.ind[,1])
+  n1.desv <- sd(din.parc.ind[,5])
   
+  #Área basal
   ab.ganho.sob<-sum(din.parc.ab[,2])
   ab.perda.sob<- sum(din.parc.ab[,3])
   ab.recr<-sum(din.parc.ab[,5])
   ab.mort<-sum(din.parc.ab[,4])
   ab0<-sum(din.parc.ab[,1])
-  ab0.desv = sd(din.parc.ab[,1])
+  ab0.desv <- sd(din.parc.ab[,1])
   ab1<-sum(din.parc.ab[,6])
-  ab1.desv = sd(din.parc.ab[,6])
+  ab1.desv <- sd(din.parc.ab[,6])
+  
+   #Riqueza
+  subset.ano1<-x[x$DAP1>0,]
+  matriz.spp.ano1<-table(subset.ano1$Parcela,subset.ano1$Especie)
+  s.ano1<-ncol(matriz.spp.ano1)
+  
+  subset.ano2<-x[x$DAP2>0,]
+  matriz.spp.ano2<-table(subset.ano2$Parcela,subset.ano2$Especie)
+  s.ano2<-ncol(matriz.spp.ano2)
   print(dinamica)
   
-  
+  cat("Riqueza ano 1 = ",s.ano1,"especies", fill=TRUE)
+  cat("Riqueza ano 2 = ",s.ano2,"especies", fill=TRUE)
   cat("Abundancia ano 1 = ",round(n0,digits=2),"+/-",round(n0.desv,digits=2),"ind", fill=TRUE)
   cat("Abundancia ano 2 = ",round(n1,digits=2),"+/-",round(n1.desv,digits=2),"ind", fill=TRUE)
   cat("Area basal ano 1 = ",round(ab0,digits=2),"+/-",round(ab0.desv,digits=2),"m2", fill=TRUE)
@@ -213,6 +239,7 @@ forest.din<-function(x,t)
   write.table(dinamica[[4]], file = "dinamica_ab_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[3]], file = "dinamica_ab_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   
+  return(dinamica)
 }
 
 #FIM
