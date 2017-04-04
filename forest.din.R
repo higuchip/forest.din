@@ -36,7 +36,7 @@
 #
 # Data: 04/04/2017
 # *Add: Determinação da riqueza para os diferentes anos
-# *Add: return, para que possa gerar um objeto
+# 
 #----------------------------------------------------------------------------------------------------------------------
 
 
@@ -231,7 +231,7 @@ forest.din<-function(x,t)
   write.table(dinamica[[4]], file = "dinamica_ab_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[3]], file = "dinamica_ab_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   
-  return(dinamica)
+  
 }
 
 #FIM
