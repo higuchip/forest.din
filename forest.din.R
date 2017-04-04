@@ -203,10 +203,10 @@ forest.din<-function(x,t)
   print(dinamica)
   
   
-  cat("Abundancia ano 1 = ",round(n0,digits=2)," ± ",round(n0.desv,digits=2),"ind", fill=TRUE)
-  cat("Abundancia ano 2 = ",round(n1,digits=2)," ± ",round(n1.desv,digits=2),"ind", fill=TRUE)
-  cat("Area basal ano 1 = ",round(ab0,digits=2)," ± ",round(ab0.desv,digits=2),"m2", fill=TRUE)
-  cat("Area basal ano 2 = ",round(ab1,digits=2)," ± ",round(ab1.desv,digits=2),"m2", fill=TRUE)
+  cat("Abundancia ano 1 = ",round(n0,digits=2),"±",round(n0.desv,digits=2),"ind", fill=TRUE)
+  cat("Abundancia ano 2 = ",round(n1,digits=2),"±",round(n1.desv,digits=2),"ind", fill=TRUE)
+  cat("Area basal ano 1 = ",round(ab0,digits=2),"±",round(ab0.desv,digits=2),"m2", fill=TRUE)
+  cat("Area basal ano 2 = ",round(ab1,digits=2),"±",round(ab1.desv,digits=2),"m2", fill=TRUE)
   
   write.table(dinamica[[1]], file = "dinamica_n_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[2]], file = "dinamica_n_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
