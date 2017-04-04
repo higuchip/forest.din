@@ -32,14 +32,6 @@
 # b) arquivo exemplo de entrada, disponível em https://www.dropbox.com/s/snnco7rkpl22mp2/dados_exemplo.xlsx?dl=0
 # c) O argumento t, representa o tempo entre inventários  		     
 #
-#
-#Como aplicar, usando o arquivo exemplo:
-#
-#dados_exemplo <- read.table("https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv",
-#                            header=T, sep = ";", dec=",")
-#source("https://raw.githubusercontent.com/higuchip/forest.din/master/forest.din.R")
-#orest.din(dados_exemplo, 5) #onde, 5 representa o tempo entre intervalos
-#
 #Modificações:
 #
 # Data: 04/04/2017
@@ -244,5 +236,9 @@ forest.din<-function(x,t)
 
 #FIM
 #Aplicação
-#din<-read.table("dados_exemplo.csv", header = T, sep=";", dec=",")
-#forest.din(din,5), onde o primeiro argumento representa o arquivo com os dados de dinâmica e o segundo argumento o tempo entre inventários
+#
+#dados_exemplo <- read.table("https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv",
+#                            header=T, sep = ";", dec=",")
+#source("https://raw.githubusercontent.com/higuchip/forest.din/master/forest.din.R")
+#forest.din(dados_exemplo, 5) #onde, 5 representa o tempo entre intervalos
+
