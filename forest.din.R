@@ -231,7 +231,7 @@ forest.din<-function(x,t)
   write.table(dinamica[[4]], file = "dinamica_ab_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[3]], file = "dinamica_ab_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   
-  
+   dinamica
 }
 
 #FIM
