@@ -23,7 +23,7 @@ Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014
 
 													                           
 # Observações:											                      
- a) O argumento din (planilha de dados) terá que conter as colunas Parcelas (identificação das parcelas),		    
+ a) O argumento x (planilha de dados) terá que conter as colunas Parcelas (identificação das parcelas),		    
  Especie (id. espécies), DAP1 (DAP no ano 1) e  DAP2 (DAP no ano 2)                                   
  b) arquivo exemplo de entrada, disponível em https://www.dropbox.com/s/snnco7rkpl22mp2/dados_exemplo.xlsx?dl=0
  c) O argumento t, representa o tempo entre inventários  		     
