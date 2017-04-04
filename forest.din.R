@@ -25,7 +25,7 @@
 #														                              
 #														                              
 # Observações:											                      
-# a) O argumento din (planilha de dados) terá que conter	
+# a) O argumento x (planilha de dados) terá que conter	
 # as colunas Parcelas (identificação das parcelas),		    
 # Especie (id. espécies), DAP1 (DAP no ano 1) e           
 # DAP2 (DAP no ano 2)   
