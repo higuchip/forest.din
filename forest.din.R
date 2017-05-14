@@ -38,7 +38,7 @@
 # *Add: Determinação da riqueza para os diferentes anos
 # 
 # Data: 14/05/2017
-# *Add: Correçao na determinaçao da riqueza para os diferentes anos
+# *Add: Correcao na determinacao da riqueza para os diferentes anos
 #----------------------------------------------------------------------------------------------------------------------
 
 
