@@ -37,6 +37,8 @@
 # Data: 04/04/2017
 # *Add: Determinação da riqueza para os diferentes anos
 # 
+# Data: 14/05/2017
+# *Add: Correço na determinaço da riqueza para os diferentes anos
 #----------------------------------------------------------------------------------------------------------------------
 
 
@@ -212,11 +214,11 @@ forest.din<-function(x,t)
    #Riqueza
   subset.ano1<-x[x$DAP1>0,]
   matriz.spp.ano1<-table(subset.ano1$Parcela,subset.ano1$Especie)
-  s.ano1<-ncol(matriz.spp.ano1)
+  s.ano1<-ncol(matriz.spp.ano1[,apply(matriz.spp.ano1, 2, sum)>0])
   
   subset.ano2<-x[x$DAP2>0,]
   matriz.spp.ano2<-table(subset.ano2$Parcela,subset.ano2$Especie)
-  s.ano2<-ncol(matriz.spp.ano2)
+  s.ano2<-ncol(matriz.spp.ano2[,apply(matriz.spp.ano2, 2, sum)>0])
   print(dinamica)
   
   cat("Riqueza ano 1 = ",s.ano1,"especies", fill=TRUE)
