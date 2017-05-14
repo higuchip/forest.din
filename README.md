@@ -19,7 +19,7 @@ Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014
  Autor:  Pedro Higuchi                                   
  01/04/2017	
 * Como citar
-* Higuchi, P. forest.din: Função em linguagem de programação estatística R para a determinação de taxas demográficas de espécies arbreas. 2017. DOI: 10.5281/zenodo.439701. Disponvel em https://github.com/higuchip/forest.din
+* Higuchi, P. forest.din: Função em linguagem de programação estatística R para a determinação de taxas demográficas de espécies arbóreas. 2017. DOI: 10.5281/zenodo.439701. Disponvel em https://github.com/higuchip/forest.din
 
 													                           
 # Observações:											                      
