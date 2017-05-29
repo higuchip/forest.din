@@ -39,6 +39,9 @@
 # 
 # Data: 14/05/2017
 # *Add: Correcao na determinacao da riqueza para os diferentes anos
+# 
+# Data: 29/05/2017
+# *Add: Correcao na determinacao da taxa de ganho em área basal
 #----------------------------------------------------------------------------------------------------------------------
 
 
