@@ -150,7 +150,7 @@ forest.din<-function(x,t)
   ab.n1.parc<-aggregate(x$AS2, by=list(Parc=x$Parcela), FUN=sum)
   
   tx.perda.ab.parc<-(1-(((ab.n0.parc$x+ABperda.parc)/ab.n0.parc$x)^(1/t)))*100
-  tx.ganho.ab.parc<-(1-(1-(sob.ganho.ab.parc+recr.ab.parc/ab.n1.parc$x))^(1/t))*100
+  tx.ganho.ab.parc<-(1-(1-(ABganho.parc/ab.n1.parc$x))^(1/t))*100
   tx.nc.ab.parc<-(((ab.n1.parc$x/ab.n0.parc$x)^(1/t))-1)*100
   turn.ab.parc<-(tx.perda.ab.parc+tx.ganho.ab.parc)/2
   
@@ -175,7 +175,7 @@ forest.din<-function(x,t)
   ab.n1.spp<-aggregate(x$AS2, by=list(Parc=x$Especie), FUN=sum)
   
   tx.perda.ab.spp<-(1-(((ab.n0.spp$x+ABperda.spp)/ab.n0.spp$x)^(1/t)))*100
-  tx.ganho.ab.spp<-(1-(1-(sob.ganho.ab.spp+recr.ab.spp/ab.n1.spp$x))^(1/t))*100
+  tx.ganho.ab.spp<-(1-(1-(ABganho.spp/ab.n1.spp$x))^(1/t))*100
   tx.nc.ab.spp<-(((ab.n1.spp$x/ab.n0.spp$x)^(1/t))-1)*100
   turn.ab.spp<-(tx.perda.ab.spp+tx.ganho.ab.spp)/2
   
