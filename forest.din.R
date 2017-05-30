@@ -222,14 +222,44 @@ forest.din<-function(x,t)
   subset.ano2<-x[x$DAP2>0,]
   matriz.spp.ano2<-table(subset.ano2$Parcela,subset.ano2$Especie)
   s.ano2<-ncol(matriz.spp.ano2[,apply(matriz.spp.ano2, 2, sum)>0])
+  
+  
+  # N Total
+  dinamica_total.n<-apply(dinamica[[1]], 2,sum)
+  tx.mort.total.n<-(1-(((dinamica_total.n[1]-dinamica_total.n[3])/dinamica_total.n[1])^(1/t)))*100
+  tx.recr.total.n<-(1-(1-(dinamica_total.n[4]/dinamica_total.n[5]))^(1/t))*100
+  tx.nc.total.n<-(((dinamica_total.n[5]/dinamica_total.n[1])^(1/t))-1)*100
+  tx.turn.total.n<-(tx.mort.total.n+tx.recr.total.n)/2
+
+  
+  #AB Total  
+  dinamica_total_ab1<-apply(dinamica[[3]], 2,sum)
+  ABganho.total<-dinamica_total_ab1[2]+dinamica_total_ab1[5]
+  ABperda.total<-dinamica_total_ab1[3]-dinamica_total_ab1[4]
+  tx.perda.ab.total<-(1-(((dinamica_total_ab1[1]+ABperda.total)/dinamica_total_ab1[1])^(1/t)))*100
+  tx.ganho.ab.total<-(1-(1-(ABganho.total/dinamica_total_ab1[6]))^(1/t))*100
+  tx.nc.ab.total<-(((dinamica_total_ab1[6]/dinamica_total_ab1[1])^(1/t))-1)*100
+  turn.ab.total<-(tx.perda.ab.total+tx.ganho.ab.total)/2
+  
+  
   print(dinamica)
+  
+  cat("DINAMICA DA COMUNIDADE TOTAL", fill=TRUE)
   
   cat("Riqueza ano 1 = ",s.ano1,"especies", fill=TRUE)
   cat("Riqueza ano 2 = ",s.ano2,"especies", fill=TRUE)
   cat("Abundancia ano 1 = ",round(n0,digits=2),"+/-",round(n0.desv,digits=2),"ind", fill=TRUE)
   cat("Abundancia ano 2 = ",round(n1,digits=2),"+/-",round(n1.desv,digits=2),"ind", fill=TRUE)
+  cat("Taxa de Mortalidade = ", round(tx.mort.total.n,digits=2), "%.ano-1", fill=TRUE)
+  cat("Taxa de Recrutamento = ",round(tx.recr.total.n,digits=2), "%.ano-1", fill=TRUE)
+  cat("Taxa de Mudança Líquida em n = ",round( tx.nc.total.n,digits=2), "%.ano-1", fill=TRUE)
+  cat("Taxa de Rotatividade Líquida em n = ",round(tx.turn.total.n,digits=2), "%.ano-1", fill=TRUE)
   cat("Area basal ano 1 = ",round(ab0,digits=2),"+/-",round(ab0.desv,digits=2),"m2", fill=TRUE)
   cat("Area basal ano 2 = ",round(ab1,digits=2),"+/-",round(ab1.desv,digits=2),"m2", fill=TRUE)
+  cat("Taxa de Perda em AB = ", round(tx.perda.ab.total,digits=2), "%.ano-1", fill=TRUE)
+  cat("Taxa de Ganho em AB = ",round(tx.ganho.ab.total,digits=2), "%.ano-1", fill=TRUE)
+  cat("Taxa de Mudança Líquida em AB = ",round(tx.nc.ab.total,digits=2), "%.ano-1", fill=TRUE)
+  cat("Taxa de Rotatividade Líquida em AB = ",round(turn.ab.total,digits=2), "%.ano-1", fill=TRUE)
   
   write.table(dinamica[[1]], file = "dinamica_n_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[2]], file = "dinamica_n_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
