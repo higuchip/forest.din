@@ -42,6 +42,9 @@
 # 
 # Data: 29/05/2017
 # *Add: Correcao na determinacao da taxa de ganho em área basal
+#
+# Data: 30/05/2017
+# *Add: Inclusao de calculo de taxas para a comunidade como um todo
 #----------------------------------------------------------------------------------------------------------------------
 
 
