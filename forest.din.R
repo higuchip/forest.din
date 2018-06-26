@@ -1,38 +1,50 @@
-#--------------------------------------------------------------------------------------------------------------------
+#============================================================================================================================
 # forest.din                            
-# Função para cálculo de taxas demográficas para comunidades de espécies arbóreas                        
-# Determinação das taxas de mortalidade, recrutamento, perda e ganho em área basal, mudanças líquidas e rotatividade,
-# baseado em:
+# Função para determinação da dinâmica de comunidades de espécies arbóreas                        
+#---------------------------------------------------------------------------------------------------------------------------- 
+#Determinação das taxas de mortalidade, recrutamento, perda e ganho em área basal, mudanças líquidas e rotatividade,
+#baseado em:
 #
 #
-#KORNING, J.; BALSLEV, H. Growth and mortality of trees in Amazonian tropical rain forest in Ecuador. Journal of Vegetation Science,
+#KORNING, J.; BALSLEV, H. Growth and mortality of trees in Amazonian tropical rain forest in Ecuador. Journal of Vegetation Science,
 #v.5, n.1, p.77-86, 1994.
 #OLIVEIRA FILHO, A. T. et a. Dinâmica da comunidade e populações arbóreas da borda e interior de um remanescente 
-#florestal na Serra da Mantiqueira, Minas Gerais, em um intervalo de cinco anos (1999-2004). 
+#florestal na Serra da Mantiqueira, Minas Gerais, em um intervalo de cinco anos (1999-2004). 
 #Revista Brasileira de Botânica, v.30, n.1, p.149-161, 2007.
 #SALAMI, B. et al. Influência de variáveis ambientais na dinâmica do componente arbóreo em um fragmento de Floresta
 #Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014.
-#SHEIL, D.; DAVID, BURSLEM, D. F. R. P.; ALDER, D. The interpretation and misinterpretation of mortality rate measures. 
+#SHEIL, D.; DAVID, BURSLEM, D. F. R. P.; ALDER, D. The interpretation and misinterpretation of mortality rate measures. 
 #Journal of Ecology, v.83, n.2, p.331-333, 1995.
 #SHEIL, D.; JENNINGS, S.; SAVILL, P. Long-term permanent plot observations of vegetation dynamics in Budongo, a Ugandan 
-#rain forest. Journal of Tropical Ecology, v.16, n.6, p.865-882, 2000.
+#rain forest. Journal of Tropical Ecology, v.16, n.6, p.865-882, 2000.
 #
+#Estimativa de Biomassa Acima do Solo baseado em Chave et al. (2014), considerando fórmula com as seguintes variáveis: 
+# D = Diâmetro (cm)
+# WD = Densidade da madeira (g.cm-3)
+# E = Estimativa de Stress Ambiental, baseado na coordenada geografica (coord)
+# Referência:
+#CHAVE et al. (2014) Improved allometric models to estimate the aboveground biomass of tropical trees, Global Change Biology, 20 (10), 3177-3190
 #
-# Autor:  Pedro Higuchi                                   
+#----------------------------------------------------------------------------------------------------------------------------------------------------------
+#Autor:  Pedro Higuchi                                   
 # 01/04/2017							
 #Como citar:
-#Higuchi, P. forest.din: Função em linguagem de programação estatística R para a determinação de taxas demográficas de espécies arbreas. 2017. DOI: 10.5281/zenodo.439701. Disponvel em https://github.com/higuchip/forest.din
-#														                              
+#
+#HIGUCHI, P. forest.dyn: Função em linguagem de programação estatística R para a determinação da dinâmica de comunidades de espécies arbóreas 2018. Disponvel em https://github.com/higuchip/forest.din
+#
+#REJOU-MECHAIN, M.; TANGUY, A.; PIPONIOT, C.; CHAVE, J.; HERAULT, B. 	BIOMASS: Estimating Aboveground Biomass and Its Uncertainty in Tropical Forests. R package version 1.2.
+# https://CRAN.R-project.org/package=BIOMASS										                              
 #														                              
 # Observações:											                      
-# a) O argumento x (planilha de dados) terá que conter	
-# as colunas Parcelas (identificação das parcelas),		    
-# Especie (id. espécies), DAP1 (DAP no ano 1) e           
+# a) O argumento x (planilha de dados) terá que conteras colunas Parcelas (identificação das parcelas),	Especie (id. espécies), DAP1 (DAP no ano 1) e           
 # DAP2 (DAP no ano 2)   
-# b) arquivo exemplo de entrada, disponível em https://www.dropbox.com/s/snnco7rkpl22mp2/dados_exemplo.xlsx?dl=0
-# c) O argumento t, representa o tempo entre inventários  		     
+# b) arquivo exemplo de entrada, disponível em https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv
+# c) O argumento t, representa o tempo entre inventários  
+# d) Argumento coord deve ser do tipo c(long, lat), com valores de graus decimais
+# e) Argumento add_wd representa um data.frame com valores de densidade da madeira (g.cm-3) formato com três colunas ("genus", "species", "wd"). Caso argumento add_wd não seja fornecido, a densidade da madeira será estimada com a função getWoodDensity do pacote BIOMASS, baseado em Zanne et al. Global wood density database. Dryad. Identifier: http://datadryad.org/handle/10255/dryad.235 (2009).
+# f) Requer pacote BIOMASS
 #
-#Modificações:
+# Modificações:
 #
 # Data: 04/04/2017
 # *Add: Determinação da riqueza para os diferentes anos
@@ -45,19 +57,54 @@
 #
 # Data: 30/05/2017
 # *Add: Inclusao de calculo de taxas para a comunidade como um todo
+#
+#Data: 25/06/2018
+#*Add: Inclusao estimativa de biomassa acima do solo
 #----------------------------------------------------------------------------------------------------------------------
 
 
 
-forest.din<-function(x,t)
+forest.din<-function(x,t,coord,add_wd = NULL)
 {
   
+  require(BIOMASS)
   x[is.na(x)]<-0
   
+  spp<-x$Especie
+  as.character(spp)
+  words <- strsplit(as.character(spp), " ")
+  genero<-sapply(words, "[", 1)
+  especie<-sapply(words, "[", 2)
+  
+  
+  # Obtenção densidade da madeira
+  #Chave, Jerome, et al. Towards a worldwide wood economics spectrum. Ecology letters 12.4 (2009): 351-366.
+  #Zanne, A. E., et al. Global wood density database. Dryad. Identifier: http://hdl. handle. net/10255/dryad 235 (2009).
+  
+  
+  wd<-getWoodDensity(genus=genero, species = especie, addWoodDensityData = add_wd)
+  wd$meanWD
+  x$wd<-wd$meanWD
+  
+  #Determinacao Biomassa Acima do Solo (tonelada)
+  #Chave et al. (2014) Improved allometric models to estimate the aboveground biomass of tropical trees, Global Change Biology, 20 (10), 3177-3190
+  
+  
+  #Ano1 
+  AGB1 <- computeAGB(x$DAP1, x$wd, coord = coord)
+  
+  #Ano2 
+  AGB2 <- computeAGB(x$DAP2, x$wd, coord = coord)
+  
+  x$AGB1<-AGB1
+  x$AGB2<-AGB2
+  
+
   #calculo área seccional
   x$AS1<-(pi*x$DAP1^2)/40000
   x$AS2<-(pi*x$DAP2^2)/40000
   x$ASdif<-x$AS2-x$AS1
+  
   
   
   
@@ -160,13 +207,18 @@ forest.din<-function(x,t)
   tx.nc.ab.parc<-(((ab.n1.parc$x/ab.n0.parc$x)^(1/t))-1)*100
   turn.ab.parc<-(tx.perda.ab.parc+tx.ganho.ab.parc)/2
   
-  din.parc.ab<- cbind(round(ab.n0.parc$x,4), round(sob.ganho.ab.parc,4),
+  #Biomassa parcela
+  biomassa.n0.parc<-aggregate(x$AGB1, by=list(Parc=x$Parcela), FUN=sum)
+  biomassa.n1.parc<-aggregate(x$AGB2, by=list(Parc=x$Parcela), FUN=sum)
+  
+  
+  din.parc.ab<- cbind(round(ab.n0.parc$x,4), round(biomassa.n0.parc$x,4), round(sob.ganho.ab.parc,4),
                       round(sob.perda.ab.parc,4),round(mort.ab.parc,4), 
-                      round(recr.ab.parc,4),round(ab.n1.parc$x,4),
+                      round(recr.ab.parc,4),round(ab.n1.parc$x,4),round(biomassa.n1.parc$x,4),
                       round(tx.perda.ab.parc,4),  round(tx.ganho.ab.parc,4),
                       round(tx.nc.ab.parc,4), round(turn.ab.parc,4))
-  colnames(din.parc.ab)<-c("AB0", "G.sob", "P.sob", "AB.m",
-                           "AB.r", "AB1", "Tx.perda.AB",
+  colnames(din.parc.ab)<-c("AB0", "BAS0", "G.sob", "P.sob", "AB.m",
+                           "AB.r", "AB1", "BAS1", "Tx.perda.AB",
                            "Tx.ganho.AB", "Tx.nc.AB", "Turn.AB")
   
   #AREA BASAL SPP
@@ -180,18 +232,24 @@ forest.din<-function(x,t)
   ab.n0.spp<-aggregate(x$AS1, by=list(Parc=x$Especie), FUN=sum)
   ab.n1.spp<-aggregate(x$AS2, by=list(Parc=x$Especie), FUN=sum)
   
+  #Biomassa spp
+  
+  biomassa.n0.spp<-aggregate(x$AGB1, by=list(Parc=x$Especie), FUN=sum)
+  biomassa.n1.spp<-aggregate(x$AGB2, by=list(Parc=x$Especie), FUN=sum)
+  
+  
   tx.perda.ab.spp<-(1-(((ab.n0.spp$x+ABperda.spp)/ab.n0.spp$x)^(1/t)))*100
   tx.ganho.ab.spp<-(1-(1-(ABganho.spp/ab.n1.spp$x))^(1/t))*100
   tx.nc.ab.spp<-(((ab.n1.spp$x/ab.n0.spp$x)^(1/t))-1)*100
   turn.ab.spp<-(tx.perda.ab.spp+tx.ganho.ab.spp)/2
   
-  din.spp.ab<- cbind(round(ab.n0.spp$x,4), round(sob.ganho.ab.spp,4),
+  din.spp.ab<- cbind(round(ab.n0.spp$x,4), round(biomassa.n0.spp$x,4),round(sob.ganho.ab.spp,4),
                      round(sob.perda.ab.spp,4),round(mort.ab.spp,4), 
-                     round(recr.ab.spp,4),round(ab.n1.spp$x,4),
+                     round(recr.ab.spp,4),round(ab.n1.spp$x,4),round(biomassa.n1.spp$x,4),
                      round(tx.perda.ab.spp,4),  round(tx.ganho.ab.spp,4),
                      round(tx.nc.ab.spp,4), round(turn.ab.spp,4))
-  colnames(din.spp.ab)<-c("AB0", "G.sob", "P.sob", "AB.m",
-                          "AB.r", "AB1", "Tx.perda.AB",
+  colnames(din.spp.ab)<-c("AB0", "BAS0", "G.sob", "P.sob", "AB.m",
+                          "AB.r", "AB1","BAS1", "Tx.perda.AB",
                           "Tx.ganho.AB", "Tx.nc.AB", "Turn.AB")
   
   dinamica<-  list(n.parc=din.parc.ind, 
@@ -199,7 +257,7 @@ forest.din<-function(x,t)
                    ab.parc=din.parc.ab, 
                    ab.spp=din.spp.ab)
   
-   #Abundância
+  #Abundância
   n0 <- sum(din.parc.ind[,1])
   n.mort <- sum(din.parc.ind[,3])
   n.recr <- sum(din.parc.ind[,4])
@@ -208,16 +266,23 @@ forest.din<-function(x,t)
   n1.desv <- sd(din.parc.ind[,5])
   
   #Área basal
-  ab.ganho.sob<-sum(din.parc.ab[,2])
-  ab.perda.sob<- sum(din.parc.ab[,3])
-  ab.recr<-sum(din.parc.ab[,5])
-  ab.mort<-sum(din.parc.ab[,4])
+  ab.ganho.sob<-sum(din.parc.ab[,3])
+  ab.perda.sob<- sum(din.parc.ab[,4])
+  ab.recr<-sum(din.parc.ab[,6])
+  ab.mort<-sum(din.parc.ab[,5])
   ab0<-sum(din.parc.ab[,1])
   ab0.desv <- sd(din.parc.ab[,1])
-  ab1<-sum(din.parc.ab[,6])
-  ab1.desv <- sd(din.parc.ab[,6])
+  ab1<-sum(din.parc.ab[,7])
+  ab1.desv <- sd(din.parc.ab[,7])
+
+  #Biomassa
+  BAS1<-sum(din.parc.ab[,2])
+  BAS1.desv <- sd(din.parc.ab[,2])
+  BAS2<-sum(din.parc.ab[,8])
+  BAS2.desv <- sd(din.parc.ab[,8])
+                          
   
-   #Riqueza
+  #Riqueza
   subset.ano1<-x[x$DAP1>0,]
   matriz.spp.ano1<-table(subset.ano1$Parcela,subset.ano1$Especie)
   s.ano1<-ncol(matriz.spp.ano1[,apply(matriz.spp.ano1, 2, sum)>0])
@@ -233,15 +298,15 @@ forest.din<-function(x,t)
   tx.recr.total.n<-(1-(1-(dinamica_total.n[4]/dinamica_total.n[5]))^(1/t))*100
   tx.nc.total.n<-(((dinamica_total.n[5]/dinamica_total.n[1])^(1/t))-1)*100
   tx.turn.total.n<-(tx.mort.total.n+tx.recr.total.n)/2
-
+  
   
   #AB Total  
   dinamica_total_ab1<-apply(dinamica[[3]], 2,sum)
-  ABganho.total<-dinamica_total_ab1[2]+dinamica_total_ab1[5]
-  ABperda.total<-dinamica_total_ab1[3]-dinamica_total_ab1[4]
-  tx.perda.ab.total<-(1-(((dinamica_total_ab1[1]+ABperda.total)/dinamica_total_ab1[1])^(1/t)))*100
-  tx.ganho.ab.total<-(1-(1-(ABganho.total/dinamica_total_ab1[6]))^(1/t))*100
-  tx.nc.ab.total<-(((dinamica_total_ab1[6]/dinamica_total_ab1[1])^(1/t))-1)*100
+  ABganho.total<-dinamica_total_ab1[3]+dinamica_total_ab1[6]
+  ABperda.total<-dinamica_total_ab1[4]-dinamica_total_ab1[5]
+  tx.perda.ab.total<-(1-(((dinamica_total_ab1[1]+ABperda.total)/dinamica_total_ab1[1])^(1/7)))*100
+  tx.ganho.ab.total<-(1-(1-(ABganho.total/dinamica_total_ab1[7]))^(1/t))*100
+  tx.nc.ab.total<-(((dinamica_total_ab1[7]/dinamica_total_ab1[1])^(1/t))-1)*100
   turn.ab.total<-(tx.perda.ab.total+tx.ganho.ab.total)/2
   
   
@@ -263,13 +328,18 @@ forest.din<-function(x,t)
   cat("Taxa de Ganho em AB = ",round(tx.ganho.ab.total,digits=2), "%.ano-1", fill=TRUE)
   cat("Taxa de Mudança Líquida em AB = ",round(tx.nc.ab.total,digits=2), "%.ano-1", fill=TRUE)
   cat("Taxa de Rotatividade Líquida em AB = ",round(turn.ab.total,digits=2), "%.ano-1", fill=TRUE)
-  
+  cat("Biomassa ano 1 = ",round(BAS1,digits=2),"+/-",round(BAS1.desv,digits=2),"ton.", fill=TRUE)
+  cat("Biomassa ano 2 = ",round(BAS2,digits=2),"+/-",round(BAS2.desv,digits=2),"ton.", fill=TRUE)
+  cat("Taxa de Rotatividade Líquida em AB = ",round(turn.ab.total,digits=2), "%.ano-1", fill=TRUE)
+    
+
+
   write.table(dinamica[[1]], file = "dinamica_n_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[2]], file = "dinamica_n_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[4]], file = "dinamica_ab_especies.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   write.table(dinamica[[3]], file = "dinamica_ab_parcelas.csv", row.names = TRUE, dec=",", sep=";", quote=FALSE)
   
-   dinamica
+ 
 }
 
 #FIM
@@ -278,5 +348,5 @@ forest.din<-function(x,t)
 #dados_exemplo <- read.table("https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv",
 #                            header=T, sep = ";", dec=",")
 #source("https://raw.githubusercontent.com/higuchip/forest.din/master/forest.din.R")
-#forest.din(dados_exemplo, 5) #onde, 5 representa o tempo entre intervalos
+#forest.din(dados_exemplo, 5, c(-50.17,-27.71)) #onde, 5 representa o tempo entre intervalos e c(long,lat) representa as coordenadas do local
 
