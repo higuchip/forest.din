@@ -37,7 +37,7 @@ Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014
 - a) O argumento x (planilha de dados) terá que conteras colunas Parcelas (identificação das parcelas),	Especie (id. espécies), DAP1 (DAP no ano 1) e  DAP2 (DAP no ano 2)   
 - b) arquivo exemplo de entrada, disponível em https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv
 - c) O argumento t, representa o tempo entre inventários  
-- d) Argumento coord deve ser do tipo c(long, lat), com valores de graus decimais
+- d) Argumento coord deve ser do tipo c(long, lat), com valores em graus decimais
 - e) Argumento add_wd representa um data.frame com valores de densidade da madeira (g.cm-3) formato com três colunas ("genus", "species", "wd"). Caso argumento add_wd não seja fornecido, a densidade da madeira será estimada com a função getWoodDensity do pacote BIOMASS, baseado em Zanne et al. Global wood density database. Dryad. Identifier: http://datadryad.org/handle/10255/dryad.235 (2009).
 - f) Requer pacote BIOMASS
 
