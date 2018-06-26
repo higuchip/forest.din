@@ -330,7 +330,6 @@ forest.din<-function(x,t,coord,add_wd = NULL)
   cat("Taxa de Rotatividade Líquida em AB = ",round(turn.ab.total,digits=2), "%.ano-1", fill=TRUE)
   cat("Biomassa ano 1 = ",round(BAS1,digits=2),"+/-",round(BAS1.desv,digits=2),"ton.", fill=TRUE)
   cat("Biomassa ano 2 = ",round(BAS2,digits=2),"+/-",round(BAS2.desv,digits=2),"ton.", fill=TRUE)
-  cat("Taxa de Rotatividade Líquida em AB = ",round(turn.ab.total,digits=2), "%.ano-1", fill=TRUE)
     
 
 
