@@ -1,3 +1,25 @@
+#============================================================================================================================
+# forest.din.reg                            
+# Função para determinação da dinâmica de comunidades regenerantes de espécies arbóreas                        
+#---------------------------------------------------------------------------------------------------------------------------- 
+#Determinação das taxas de mortalidade, recrutamento, mudanças de classes de tamanho e mudanças líquidas e rotatividade,
+#baseado em:
+#
+#
+#KORNING, J.; BALSLEV, H. Growth and mortality of trees in Amazonian tropical rain forest in Ecuador. Journal of Vegetation Science,
+#v.5, n.1, p.77-86, 1994.
+#OLIVEIRA FILHO, A. T. et a. Dinâmica da comunidade e populações arbóreas da borda e interior de um remanescente 
+#florestal na Serra da Mantiqueira, Minas Gerais, em um intervalo de cinco anos (1999-2004). 
+#Revista Brasileira de Botânica, v.30, n.1, p.149-161, 2007.
+#SALAMI, B. et al. Influência de variáveis ambientais na dinâmica do componente arbóreo em um fragmento de Floresta
+#Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014.
+#SHEIL, D.; DAVID, BURSLEM, D. F. R. P.; ALDER, D. The interpretation and misinterpretation of mortality rate measures. 
+#Journal of Ecology, v.83, n.2, p.331-333, 1995.
+#SHEIL, D.; JENNINGS, S.; SAVILL, P. Long-term permanent plot observations of vegetation dynamics in Budongo, a Ugandan 
+#rain forest. Journal of Tropical Ecology, v.16, n.6, p.865-882, 2000.
+#
+
+
 forest.din.reg <-function(x,t)
 {
  
