@@ -28,7 +28,7 @@ Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014
  01/04/2017	
 * Como citar
 
-* Higuchi, P. forest.din: Função em linguagem de programação estatística R para determinação da dinâmica de comunidades de espécies arbóreas 2018. DOI: 10.5281/zenodo.1297702 Disponvel em https://github.com/higuchip/forest.din
+* HIGUCHI, P. forest.din: Função em linguagem de programação estatística R para determinação da dinâmica de comunidades de espécies arbóreas 2018. DOI: 10.5281/zenodo.1297702 Disponvel em https://github.com/higuchip/forest.din
 
 * REJOU-MECHAIN, M.; TANGUY, A.; PIPONIOT, C.; CHAVE, J.; HERAULT, B. 	BIOMASS: Estimating Aboveground Biomass and Its Uncertainty in Tropical Forests. R package version 1.2. https://CRAN.R-project.org/package=BIOMASS	
 
