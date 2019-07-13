@@ -304,7 +304,7 @@ forest.din<-function(x,t,coord,add_wd = NULL)
   dinamica_total_ab1<-apply(dinamica[[3]], 2,sum)
   ABganho.total<-dinamica_total_ab1[3]+dinamica_total_ab1[6]
   ABperda.total<-dinamica_total_ab1[4]-dinamica_total_ab1[5]
-  tx.perda.ab.total<-(1-(((dinamica_total_ab1[1]+ABperda.total)/dinamica_total_ab1[1])^(1/7)))*100
+  tx.perda.ab.total<-(1-(((dinamica_total_ab1[1]+ABperda.total)/dinamica_total_ab1[1])^(1/t)))*100
   tx.ganho.ab.total<-(1-(1-(ABganho.total/dinamica_total_ab1[7]))^(1/t))*100
   tx.nc.ab.total<-(((dinamica_total_ab1[7]/dinamica_total_ab1[1])^(1/t))-1)*100
   turn.ab.total<-(tx.perda.ab.total+tx.ganho.ab.total)/2
