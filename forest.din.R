@@ -36,7 +36,7 @@
 # https://CRAN.R-project.org/package=BIOMASS										                              
 #														                              
 # Observações:											                      
-# a) O argumento x (planilha de dados) terá que conteras colunas Parcelas (identificação das parcelas),	Especie (id. espécies), DAP1 (DAP no ano 1) e           
+# a) O argumento x (planilha de dados) terá que conteras colunas Parcela (identificação das parcelas),	Especie (id. espécies), DAP1 (DAP no ano 1) e           
 # DAP2 (DAP no ano 2)   
 # b) arquivo exemplo de entrada, disponível em https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv
 # c) O argumento t, representa o tempo entre inventários  

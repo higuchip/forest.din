@@ -34,7 +34,7 @@ Ombrófila Mista em Lages, SC. Scientia Forestalis, v.42, n.102, p.197-207, 2014
 
 													                           
 # Observações:											                      
-- a) O argumento x (planilha de dados) terá que conteras colunas Parcelas (identificação das parcelas),	Especie (id. espécies), DAP1 (DAP no ano 1) e  DAP2 (DAP no ano 2)   
+- a) O argumento x (planilha de dados) terá que conteras colunas Parcela (identificação das parcelas),	Especie (id. espécies), DAP1 (DAP no ano 1) e  DAP2 (DAP no ano 2)   
 - b) arquivo exemplo de entrada, disponível em https://raw.githubusercontent.com/higuchip/forest.din/master/dados_exemplo.csv
 - c) O argumento t, representa o tempo entre inventários  
 - d) Argumento coord deve ser do tipo c(long, lat), com valores em graus decimais
